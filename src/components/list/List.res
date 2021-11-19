@@ -31,6 +31,8 @@ let make = () => {
       handleDispatch()
     }
 
+  Js.log(Js.Array2.mapi((todo, i) => <Item key={i->Js.Int.toString} todo />))
+
   <>
     <div>
       <input value={input} onChange onKeyPress />
@@ -40,12 +42,7 @@ let make = () => {
       <p> {React.string("You haven't added anything to your list yet.")} </p>
     } else {
       <ol>
-        {todos
-        ->Js.Array2.mapi((todo, i) => <TodoItem key={i->Js.Int.toString} todo />)
-        ->React.array}
-        {React.array(Js.Array2.mapi((todo, i) => <TodoItem key={i->Js.Int.toString} todo />))(
-          todos,
-        )}
+        {todos->Js.Array2.mapi((todo, i) => <Item key={i->Js.Int.toString} todo />)->React.array}
       </ol>
     }}
   </>

@@ -24,7 +24,7 @@
   },
   "sources": [
     {
-      "dir": "modules",
+      "dir": "src",
       "subdirs": true
     }
   ],

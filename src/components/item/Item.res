@@ -1,5 +1,5 @@
 @react.component
-let make = (~todo) => {
+let make = (~todo: Todo.t) => {
   let (toggled, toggle) = UseToggle.useToggle()
 
   let handleButtonClick = _ => {
@@ -9,11 +9,11 @@ let make = (~todo) => {
   <li>
     {if toggled {
       <div>
-        <input value={todo["content"]} readOnly={true} />
+        <input value={todo.content} readOnly={true} />
         <button onClick={handleButtonClick}> {React.string("Update")} </button>
       </div>
     } else {
-      <div onClick={_ => toggle()}> {React.string(todo["content"])} </div>
+      <div onClick={_ => toggle()}> {React.string(todo.content)} </div>
     }}
   </li>
 }

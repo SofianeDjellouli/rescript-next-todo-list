@@ -2,9 +2,9 @@
 
 import * as Curry from "rescript/lib/es6/curry.js";
 import * as React from "react";
-import * as UseToggle from "../use-toggle/UseToggle.bs.js";
+import * as UseToggle from "../../core/use-toggle/UseToggle.bs.js";
 
-function TodoItem(Props) {
+function Item(Props) {
   var todo = Props.todo;
   var match = UseToggle.useToggle(undefined, undefined);
   var toggle = match[1];
@@ -23,7 +23,7 @@ function TodoItem(Props) {
                   }, todo.content));
 }
 
-var make = TodoItem;
+var make = Item;
 
 export {
   make ,
