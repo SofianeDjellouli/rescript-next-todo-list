@@ -1,3 +1,5 @@
+@module external styles: {..} = "./index.module.scss"
+
 @react.component
 let make = (~todo: Todo.t) => {
   let (toggled, toggle) = UseToggle.useToggle()
@@ -6,7 +8,7 @@ let make = (~todo: Todo.t) => {
     toggle()
   }
 
-  <li>
+  <li className={styles["item"]}>
     {if toggled {
       <div>
         <input value={todo.content} readOnly={true} />

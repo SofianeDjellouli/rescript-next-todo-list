@@ -3,6 +3,9 @@
 import * as Curry from "rescript/lib/es6/curry.js";
 import * as React from "react";
 import * as UseToggle from "../../core/use-toggle/UseToggle.bs.js";
+import * as IndexModuleScss from "./index.module.scss";
+
+var styles = IndexModuleScss;
 
 function Item(Props) {
   var todo = Props.todo;
@@ -11,7 +14,9 @@ function Item(Props) {
   var handleButtonClick = function (param) {
     return Curry._1(toggle, undefined);
   };
-  return React.createElement("li", undefined, match[0] ? React.createElement("div", undefined, React.createElement("input", {
+  return React.createElement("li", {
+              className: styles.item
+            }, match[0] ? React.createElement("div", undefined, React.createElement("input", {
                         readOnly: true,
                         value: todo.content
                       }), React.createElement("button", {
@@ -26,7 +31,8 @@ function Item(Props) {
 var make = Item;
 
 export {
+  styles ,
   make ,
   
 }
-/* react Not a pure module */
+/* styles Not a pure module */
