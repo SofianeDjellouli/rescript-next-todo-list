@@ -2,44 +2,14 @@
 
 import * as Item from "../item/Item.bs.js";
 import * as Curry from "rescript/lib/es6/curry.js";
+import * as State from "./State.bs.js";
 import * as React from "react";
 
-var defaultState_todos = [];
-
-var defaultState = {
-  todos: defaultState_todos,
-  input: ""
-};
-
-function reducer(state, action) {
-  if (typeof action === "number") {
-    return {
-            todos: state.todos.concat([{
-                    content: state.input
-                  }]),
-            input: ""
-          };
-  }
-  if (action.TAG !== /* Remove */0) {
-    return {
-            todos: state.todos,
-            input: action.value
-          };
-  }
-  var id = action.id;
-  return {
-          todos: state.todos.filter(function (param, i) {
-                return i !== id;
-              }),
-          input: state.input
-        };
-}
-
 function List(Props) {
-  var match = React.useReducer(reducer, defaultState);
+  var match = React.useReducer(State.reducer, State.defaultState);
+  var state = match[0];
+  var todos = state.todos;
   var dispatch = match[1];
-  var match$1 = match[0];
-  var todos = match$1.todos;
   var onChange = function ($$event) {
     var value = $$event.target.value;
     return Curry._1(dispatch, {
@@ -57,7 +27,7 @@ function List(Props) {
     
   };
   return React.createElement(React.Fragment, undefined, React.createElement("div", undefined, React.createElement("input", {
-                      value: match$1.input,
+                      value: state.input,
                       onKeyPress: onKeyPress,
                       onChange: onChange
                     }), React.createElement("button", {
@@ -73,8 +43,6 @@ function List(Props) {
 var make = List;
 
 export {
-  defaultState ,
-  reducer ,
   make ,
   
 }
