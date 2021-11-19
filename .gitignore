@@ -35,3 +35,8 @@ yarn-error.log*
 
 # typescript
 *.tsbuildinfo
+
+#rescript
+/lib/
+.bsb.lock
+.merlin

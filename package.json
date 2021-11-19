@@ -1,8 +1,8 @@
 {
-  "name": "rescript-todo",
+  "name": "rescript-next-todo-list",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "concurrently \"rescript build -w\" \"next dev\"",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
@@ -13,10 +13,16 @@
     "react-dom": "17.0.2"
   },
   "devDependencies": {
+    "@rescript/react": "^0.10.3",
     "@types/node": "16.11.7",
     "@types/react": "17.0.35",
+    "bs-platform": "^9.0.2",
+    "bs-webapi": "^0.19.1",
+    "concurrently": "^6.4.0",
     "eslint": "7",
     "eslint-config-next": "12.0.4",
+    "gentype": "^4.3.0",
+    "rescript": "^9.1.4",
     "typescript": "4.4.4"
   }
 }

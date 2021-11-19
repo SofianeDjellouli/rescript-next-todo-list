@@ -1,0 +1,32 @@
+{
+  "bs-dependencies": [
+    "@rescript/react",
+    "bs-webapi"
+  ],
+  "gentypeconfig": {
+    "debug": {
+      "all": false,
+      "basic": false
+    },
+    "generatedFileExtension": ".gen.tsx",
+    "language": "typescript",
+    "shims": {}
+  },
+  "name": "rescript-next-todo-list",
+  "package-specs": [
+    {
+      "in-source": true,
+      "module": "es6"
+    }
+  ],
+  "reason": {
+    "react-jsx": 3
+  },
+  "sources": [
+    {
+      "dir": "modules",
+      "subdirs": true
+    }
+  ],
+  "suffix": ".bs.js"
+}
