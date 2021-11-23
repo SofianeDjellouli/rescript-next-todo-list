@@ -2,7 +2,7 @@ type state = {todos: array<Todo.t>, input: string}
 
 let defaultState = {todos: [], input: ""}
 
-type action = Add | Remove({id: int}) | InputChange({value: string})
+type action = Add | Remove(int) | InputChange(string) | Update({value: string, i: int})
 
 let reducer = (state, action) =>
   switch action {
@@ -10,6 +10,15 @@ let reducer = (state, action) =>
       input: "",
       todos: state.todos->Js.Array2.concat([{content: state.input}]),
     }
-  | Remove({id}) => {...state, todos: state.todos->Js.Array2.filteri((_, i) => i != id)}
-  | InputChange({value}) => {...state, input: value}
+  | Remove(i) => {...state, todos: state.todos->Js.Array2.filteri((_, index) => index != i)}
+  | InputChange(value) => {...state, input: value}
+  | Update({value, i}) => {
+      let index = state.todos->Js.Array2.findIndexi((_, index) => index == i)
+
+      if index > -1 {
+        state.todos[index].content = value
+      }
+
+      state
+    }
   }
