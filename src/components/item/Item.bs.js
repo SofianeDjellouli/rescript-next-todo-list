@@ -2,30 +2,94 @@
 
 import * as Curry from "rescript/lib/es6/curry.js";
 import * as React from "react";
+import * as Spread from "../spread/Spread.bs.js";
 import * as UseToggle from "../../core/use-toggle/UseToggle.bs.js";
+import * as Core from "@material-ui/core";
 import * as IndexModuleScss from "./index.module.scss";
+import * as MaterialUi_TextField from "rescript-material-ui/src/MaterialUi_TextField.bs.js";
 
 var styles = IndexModuleScss;
 
 function Item(Props) {
   var todo = Props.todo;
+  var dispatch = Props.dispatch;
+  var i = Props.i;
   var match = UseToggle.useToggle(undefined, undefined);
   var toggle = match[1];
-  var handleButtonClick = function (param) {
+  var match$1 = React.useState(function () {
+        return todo.content;
+      });
+  var setValue = match$1[1];
+  var value = match$1[0];
+  var onChange = function (e) {
+    return Curry._1(setValue, e.target.value);
+  };
+  var handleUpdate = function (param) {
+    Curry._1(dispatch, {
+          TAG: /* Update */2,
+          value: value,
+          i: i
+        });
     return Curry._1(toggle, undefined);
   };
-  return React.createElement("li", {
+  var handleDelete = function (param) {
+    return Curry._1(dispatch, {
+                TAG: /* Remove */0,
+                _0: i
+              });
+  };
+  React.useEffect((function () {
+          Curry._1(setValue, (function (param) {
+                  return todo.content;
+                }));
+          
+        }), [todo.content]);
+  var handleToggle = function (param) {
+    return Curry._1(toggle, undefined);
+  };
+  return React.createElement(Core.ListItem, {
+              children: match[0] ? React.createElement(React.Fragment, undefined, React.createElement(Core.TextField, {
+                          onChange: onChange,
+                          value: MaterialUi_TextField.Value.string(value)
+                        }), React.createElement(Core.ListItemSecondaryAction, {
+                          children: null
+                        }, React.createElement(Spread.make, {
+                              props: {
+                                onClick: handleToggle
+                              },
+                              children: React.createElement(Core.ListItemText, {
+                                    primary: "Cancel"
+                                  })
+                            }), React.createElement(Spread.make, {
+                              props: {
+                                onClick: handleUpdate
+                              },
+                              children: React.createElement(Core.ListItemText, {
+                                    primary: "Confirm"
+                                  })
+                            }))) : React.createElement(React.Fragment, undefined, React.createElement(Core.ListItemText, {
+                          primary: todo.content
+                        }), React.createElement(Spread.make, {
+                          props: {
+                            onClick: handleToggle
+                          },
+                          children: React.createElement(Core.ListItemSecondaryAction, {
+                                children: React.createElement(Core.ListItemText, {
+                                      primary: "Change"
+                                    })
+                              })
+                        }), React.createElement(Spread.make, {
+                          props: {
+                            onClick: handleDelete
+                          },
+                          children: React.createElement(Core.ListItemSecondaryAction, {
+                                children: React.createElement(Core.ListItemText, {
+                                      primary: "Delete"
+                                    })
+                              })
+                        })),
               className: styles.item
-            }, match[0] ? React.createElement("div", undefined, React.createElement("input", {
-                        readOnly: true,
-                        value: todo.content
-                      }), React.createElement("button", {
-                        onClick: handleButtonClick
-                      }, "Update")) : React.createElement("div", {
-                    onClick: (function (param) {
-                        return Curry._1(toggle, undefined);
-                      })
-                  }, todo.content));
+            });
 }
 
 var make = Item;

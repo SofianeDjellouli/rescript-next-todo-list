@@ -1,21 +1,62 @@
+open MaterialUi
+
 @module external styles: {..} = "./index.module.scss"
 
 @react.component
-let make = (~todo: Todo.t) => {
+let make = (~todo: Todo.t, ~dispatch: State.action => unit, ~i: int) => {
   let (toggled, toggle) = UseToggle.useToggle()
 
-  let handleButtonClick = _ => {
+  let (value, setValue) = React.useState(_ => todo.content)
+
+  let onChange = e => {
+    let value = ReactEvent.Form.target(e)["value"]
+
+    setValue(value)
+  }
+
+  let handleUpdate = _ => {
+    {value: value, i: i}->Update->dispatch
+
     toggle()
   }
 
-  <li className={styles["item"]}>
+  let handleDelete = _ => i->Remove->dispatch
+
+  React.useEffect1(() => {
+    setValue(_ => todo.content)
+
+    None
+  }, [todo.content])
+
+  let handleToggle = _ => toggle()
+
+  <ListItem className={styles["item"]}>
     {if toggled {
-      <div>
-        <input value={todo.content} readOnly={true} />
-        <button onClick={handleButtonClick}> {React.string("Update")} </button>
-      </div>
+      <>
+        <TextField onChange value={TextField.Value.string(value)} />
+        <ListItemSecondaryAction>
+          <Spread props={"onClick": handleToggle}>
+            <ListItemText primary={React.string("Cancel")} />
+          </Spread>
+          <Spread props={"onClick": handleUpdate}>
+            <ListItemText primary={React.string("Confirm")} />
+          </Spread>
+        </ListItemSecondaryAction>
+      </>
     } else {
-      <div onClick={_ => toggle()}> {React.string(todo.content)} </div>
+      <>
+        <ListItemText primary={React.string(todo.content)} />
+        <Spread props={"onClick": handleToggle}>
+          <ListItemSecondaryAction>
+            <ListItemText primary={React.string("Change")} />
+          </ListItemSecondaryAction>
+        </Spread>
+        <Spread props={"onClick": handleDelete}>
+          <ListItemSecondaryAction>
+            <ListItemText primary={React.string("Delete")} />
+          </ListItemSecondaryAction>
+        </Spread>
+      </>
     }}
-  </li>
+  </ListItem>
 }

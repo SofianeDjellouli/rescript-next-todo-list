@@ -1,4 +1,6 @@
-@genType("List") @react.component
+open MaterialUi
+
+@react.component
 let make = () => {
   let (state, dispatch) = React.useReducer(State.reducer, State.defaultState)
 
@@ -10,7 +12,9 @@ let make = () => {
     value->InputChange->dispatch
   }
 
-  let handleDispatch = _ => {
+  let handleSubmit = e => {
+    ReactEvent.Form.preventDefault(e)
+
     let length = Js.String.length(state.input)
 
     if length > 0 {
@@ -20,24 +24,21 @@ let make = () => {
     }
   }
 
-  let onKeyPress = e =>
-    if ReactEvent.Keyboard.key(e) === "Enter" {
-      handleDispatch()
-    }
-
   <>
-    <div>
-      <input value={input} onChange onKeyPress />
-      <button onClick={handleDispatch}> {React.string("Add")} </button>
-    </div>
+    <form onSubmit={handleSubmit}>
+      <TextField onChange value={TextField.Value.string(input)} />
+      <Button variant=#Contained _type={Button.Type.string("submit")}>
+        {React.string("Add")}
+      </Button>
+    </form>
     {if todos->Js.Array2.length == 0 {
       <p> {React.string("You haven't added anything to your list yet.")} </p>
     } else {
-      <ol>
+      <List>
         {todos
         ->Js.Array2.mapi((todo, i) => <Item key={i->Js.Int.toString} todo dispatch i />)
         ->React.array}
-      </ol>
+      </List>
     }}
   </>
 }

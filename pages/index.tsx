@@ -1,20 +1,17 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import styles from "../styles/Home.module.css";
-import { make as List } from "../src/components/list/List.bs";
+import { App } from "../src/components/app/App.gen";
 
 const Home: NextPage = () => (
-  <div className={styles.container}>
+  <>
     <Head>
       <title>Rescript + NextJs Todo List</title>
 
       <link rel="icon" href="/favicon.ico" />
     </Head>
 
-    <main className={styles.main}>
-      <List />
-    </main>
-  </div>
+    <App />
+  </>
 );
 
 export default Home;

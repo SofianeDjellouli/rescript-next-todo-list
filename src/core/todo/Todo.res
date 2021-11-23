@@ -1,1 +1,1 @@
-type t = {content: string}
+type t = {mutable content: string}
