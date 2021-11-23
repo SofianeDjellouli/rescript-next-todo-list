@@ -46,16 +46,14 @@ let make = (~todo: Todo.t, ~dispatch: State.action => unit, ~i: int) => {
     } else {
       <>
         <ListItemText primary={React.string(todo.content)} />
-        <Spread props={"onClick": handleToggle}>
-          <ListItemSecondaryAction>
+        <ListItemSecondaryAction>
+          <Spread props={"onClick": handleToggle}>
             <ListItemText primary={React.string("Change")} />
-          </ListItemSecondaryAction>
-        </Spread>
-        <Spread props={"onClick": handleDelete}>
-          <ListItemSecondaryAction>
+          </Spread>
+          <Spread props={"onClick": handleDelete}>
             <ListItemText primary={React.string("Delete")} />
-          </ListItemSecondaryAction>
-        </Spread>
+          </Spread>
+        </ListItemSecondaryAction>
       </>
     }}
   </ListItem>

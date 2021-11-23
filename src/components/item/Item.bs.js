@@ -69,25 +69,23 @@ function Item(Props) {
                                   })
                             }))) : React.createElement(React.Fragment, undefined, React.createElement(Core.ListItemText, {
                           primary: todo.content
-                        }), React.createElement(Spread.make, {
-                          props: {
-                            onClick: handleToggle
-                          },
-                          children: React.createElement(Core.ListItemSecondaryAction, {
-                                children: React.createElement(Core.ListItemText, {
-                                      primary: "Change"
-                                    })
-                              })
-                        }), React.createElement(Spread.make, {
-                          props: {
-                            onClick: handleDelete
-                          },
-                          children: React.createElement(Core.ListItemSecondaryAction, {
-                                children: React.createElement(Core.ListItemText, {
-                                      primary: "Delete"
-                                    })
-                              })
-                        })),
+                        }), React.createElement(Core.ListItemSecondaryAction, {
+                          children: null
+                        }, React.createElement(Spread.make, {
+                              props: {
+                                onClick: handleToggle
+                              },
+                              children: React.createElement(Core.ListItemText, {
+                                    primary: "Change"
+                                  })
+                            }), React.createElement(Spread.make, {
+                              props: {
+                                onClick: handleDelete
+                              },
+                              children: React.createElement(Core.ListItemText, {
+                                    primary: "Delete"
+                                  })
+                            }))),
               className: styles.item
             });
 }
