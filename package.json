@@ -2,7 +2,7 @@
   "name": "rescript-next-todo-list",
   "private": true,
   "scripts": {
-    "dev": "concurrently \"next dev\" \"rescript build -w\"",
+    "dev": "concurrently \"next dev\" \"rescript build -with-deps -w\"",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
