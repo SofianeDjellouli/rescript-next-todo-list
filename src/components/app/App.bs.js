@@ -5,8 +5,22 @@ import * as TodoList from "../todo-list/TodoList.bs.js";
 import * as Core from "@material-ui/core";
 
 function App(Props) {
-  return React.createElement(Core.Container, {
-              children: React.createElement(TodoList.make, {})
+  return React.createElement(Core.Grid, {
+              alignContent: "center",
+              children: React.createElement(Core.Grid, {
+                    children: React.createElement(Core.Card, {
+                          children: React.createElement(Core.CardContent, {
+                                children: React.createElement(TodoList.make, {})
+                              })
+                        }),
+                    item: true
+                  }),
+              container: true,
+              justify: "center",
+              style: {
+                backgroundColor: "#cfe8fc",
+                height: "100vh"
+              }
             });
 }
 
