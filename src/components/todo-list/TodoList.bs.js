@@ -2,7 +2,7 @@
 
 import * as Item from "../item/Item.bs.js";
 import * as Curry from "rescript/lib/es6/curry.js";
-import * as State from "./State.bs.js";
+import * as State from "../../state/State.bs.js";
 import * as React from "react";
 import * as Core from "@material-ui/core";
 import * as MaterialUi_Button from "rescript-material-ui/src/MaterialUi_Button.bs.js";
