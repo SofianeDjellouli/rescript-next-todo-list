@@ -10,19 +10,25 @@ function List(Props) {
   var state = match[0];
   var todos = state.todos;
   var dispatch = match[1];
-  var onChange = function ($$event) {
-    var value = $$event.target.value;
+  var onChange = function (e) {
+    var value = e.target.value;
     return Curry._1(dispatch, {
                 TAG: /* InputChange */1,
-                value: value
+                _0: value
               });
   };
   var handleDispatch = function (param) {
-    return Curry._1(dispatch, /* Add */0);
-  };
-  var onKeyPress = function ($$event) {
-    if ($$event.key === "Enter") {
+    var length = state.input.length;
+    if (length > 0) {
       return Curry._1(dispatch, /* Add */0);
+    } else {
+      window.alert("Nothing to add!");
+      return ;
+    }
+  };
+  var onKeyPress = function (e) {
+    if (e.key === "Enter") {
+      return handleDispatch(undefined);
     }
     
   };
@@ -35,6 +41,8 @@ function List(Props) {
                     }, "Add")), todos.length === 0 ? React.createElement("p", undefined, "You haven't added anything to your list yet.") : React.createElement("ol", undefined, todos.map(function (todo, i) {
                         return React.createElement(Item.make, {
                                     todo: todo,
+                                    dispatch: dispatch,
+                                    i: i,
                                     key: i.toString()
                                   });
                       })));

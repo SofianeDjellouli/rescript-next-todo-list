@@ -4,16 +4,24 @@ let make = () => {
 
   let {input, todos} = state
 
-  let onChange = event => {
-    let value = ReactEvent.Form.target(event)["value"]
+  let onChange = e => {
+    let value = ReactEvent.Form.target(e)["value"]
 
-    dispatch(InputChange({value: value}))
+    value->InputChange->dispatch
   }
 
-  let handleDispatch = _ => dispatch(Add)
+  let handleDispatch = _ => {
+    let length = Js.String.length(state.input)
 
-  let onKeyPress = event =>
-    if ReactEvent.Keyboard.key(event) === "Enter" {
+    if length > 0 {
+      dispatch(Add)
+    } else {
+      Webapi.Dom.Window.alert("Nothing to add!", Webapi.Dom.window)
+    }
+  }
+
+  let onKeyPress = e =>
+    if ReactEvent.Keyboard.key(e) === "Enter" {
       handleDispatch()
     }
 
@@ -26,7 +34,9 @@ let make = () => {
       <p> {React.string("You haven't added anything to your list yet.")} </p>
     } else {
       <ol>
-        {todos->Js.Array2.mapi((todo, i) => <Item key={i->Js.Int.toString} todo />)->React.array}
+        {todos
+        ->Js.Array2.mapi((todo, i) => <Item key={i->Js.Int.toString} todo dispatch i />)
+        ->React.array}
       </ol>
     }}
   </>
