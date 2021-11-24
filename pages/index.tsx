@@ -1,7 +1,7 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import { useState, useEffect } from "react";
-import { App } from "../src/components/app/App.gen";
+import { make as App } from "../src/components/app/App.bs";
 
 const Home: NextPage = () => {
   const [mounted, setMounted] = useState(false);
