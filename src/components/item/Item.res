@@ -1,4 +1,5 @@
 open MaterialUi
+open Icons
 
 @module external styles: {..} = "./index.module.scss"
 
@@ -30,31 +31,30 @@ let make = (~todo: Todo.t, ~dispatch: State.action => unit, ~i: int) => {
 
   let handleToggle = _ => toggle()
 
-  <ListItem className={styles["item"]}>
+  <ListItem button={true} className={styles["item"]}>
+    <ListItemIcon>
+      <IconButton edge={IconButton.Edge.start}>
+        {if toggled {
+          <Cancel onClick={handleToggle} />
+        } else {
+          <Edit onClick={handleToggle} />
+        }}
+      </IconButton>
+    </ListItemIcon>
     {if toggled {
       <>
         <TextField onChange value={TextField.Value.string(value)} />
-        <ListItemSecondaryAction>
-          <Spread props={"onClick": handleToggle}>
-            <ListItemText primary={React.string("Cancel")} />
-          </Spread>
-          <Spread props={"onClick": handleUpdate}>
-            <ListItemText primary={React.string("Confirm")} />
-          </Spread>
-        </ListItemSecondaryAction>
+        <ListItemIcon> <Check onClick={handleUpdate} /> </ListItemIcon>
       </>
     } else {
       <>
-        <ListItemText primary={React.string(todo.content)} />
-        <ListItemSecondaryAction>
-          <Spread props={"onClick": handleToggle}>
-            <ListItemText primary={React.string("Change")} />
-          </Spread>
-          <Spread props={"onClick": handleDelete}>
-            <ListItemText primary={React.string("Delete")} />
-          </Spread>
-        </ListItemSecondaryAction>
+        <ListItemText
+          primary={React.string(todo.content)} style={ReactDOM.Style.make(~cursor="pointer", ())}
+        />
       </>
     }}
+    <ListItemSecondaryAction>
+      <IconButton edge={IconButton.Edge._end}> <Delete onClick={handleDelete} /> </IconButton>
+    </ListItemSecondaryAction>
   </ListItem>
 }

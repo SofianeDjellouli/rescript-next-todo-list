@@ -2,11 +2,15 @@
 
 import * as Curry from "rescript/lib/es6/curry.js";
 import * as React from "react";
-import * as Spread from "../spread/Spread.bs.js";
 import * as UseToggle from "../../core/use-toggle/UseToggle.bs.js";
 import * as Core from "@material-ui/core";
 import * as IndexModuleScss from "./index.module.scss";
 import * as MaterialUi_TextField from "rescript-material-ui/src/MaterialUi_TextField.bs.js";
+import * as MaterialUi_IconButton from "rescript-material-ui/src/MaterialUi_IconButton.bs.js";
+import Edit from "@material-ui/icons/Edit";
+import Check from "@material-ui/icons/Check";
+import Cancel from "@material-ui/icons/Cancel";
+import Delete from "@material-ui/icons/Delete";
 
 var styles = IndexModuleScss;
 
@@ -16,6 +20,7 @@ function Item(Props) {
   var i = Props.i;
   var match = UseToggle.useToggle(undefined, undefined);
   var toggle = match[1];
+  var toggled = match[0];
   var match$1 = React.useState(function () {
         return todo.content;
       });
@@ -48,46 +53,38 @@ function Item(Props) {
     return Curry._1(toggle, undefined);
   };
   return React.createElement(Core.ListItem, {
-              children: match[0] ? React.createElement(React.Fragment, undefined, React.createElement(Core.TextField, {
-                          onChange: onChange,
-                          value: MaterialUi_TextField.Value.string(value)
-                        }), React.createElement(Core.ListItemSecondaryAction, {
-                          children: null
-                        }, React.createElement(Spread.make, {
-                              props: {
-                                onClick: handleToggle
-                              },
-                              children: React.createElement(Core.ListItemText, {
-                                    primary: "Cancel"
-                                  })
-                            }), React.createElement(Spread.make, {
-                              props: {
-                                onClick: handleUpdate
-                              },
-                              children: React.createElement(Core.ListItemText, {
-                                    primary: "Confirm"
-                                  })
-                            }))) : React.createElement(React.Fragment, undefined, React.createElement(Core.ListItemText, {
-                          primary: todo.content
-                        }), React.createElement(Core.ListItemSecondaryAction, {
-                          children: null
-                        }, React.createElement(Spread.make, {
-                              props: {
-                                onClick: handleToggle
-                              },
-                              children: React.createElement(Core.ListItemText, {
-                                    primary: "Change"
-                                  })
-                            }), React.createElement(Spread.make, {
-                              props: {
-                                onClick: handleDelete
-                              },
-                              children: React.createElement(Core.ListItemText, {
-                                    primary: "Delete"
-                                  })
-                            }))),
+              button: true,
+              children: null,
               className: styles.item
-            });
+            }, React.createElement(Core.ListItemIcon, {
+                  children: React.createElement(Core.IconButton, {
+                        children: toggled ? React.createElement(Cancel, {
+                                onClick: handleToggle
+                              }) : React.createElement(Edit, {
+                                onClick: handleToggle
+                              }),
+                        edge: MaterialUi_IconButton.Edge.start
+                      })
+                }), toggled ? React.createElement(React.Fragment, undefined, React.createElement(Core.TextField, {
+                        onChange: onChange,
+                        value: MaterialUi_TextField.Value.string(value)
+                      }), React.createElement(Core.ListItemIcon, {
+                        children: React.createElement(Check, {
+                              onClick: handleUpdate
+                            })
+                      })) : React.createElement(React.Fragment, undefined, React.createElement(Core.ListItemText, {
+                        primary: todo.content,
+                        style: {
+                          cursor: "pointer"
+                        }
+                      })), React.createElement(Core.ListItemSecondaryAction, {
+                  children: React.createElement(Core.IconButton, {
+                        children: React.createElement(Delete, {
+                              onClick: handleDelete
+                            }),
+                        edge: MaterialUi_IconButton.Edge._end
+                      })
+                }));
 }
 
 var make = Item;
