@@ -27,9 +27,11 @@ let make = () => {
   <>
     <form onSubmit={handleSubmit}>
       <TextField onChange value={TextField.Value.string(input)} />
-      <Button variant=#Contained _type={Button.Type.string("submit")}>
-        {React.string("Add")}
-      </Button>
+      <Tooltip title={React.string("Add")}>
+        <IconButton _type={IconButton.Type.string("submit")} edge={IconButton.Edge._end}>
+          <Icons.Add />
+        </IconButton>
+      </Tooltip>
     </form>
     {if todos->Js.Array2.length == 0 {
       <p> {React.string("You haven't added anything to your list yet.")} </p>

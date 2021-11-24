@@ -5,8 +5,9 @@ import * as Curry from "rescript/lib/es6/curry.js";
 import * as State from "../../state/State.bs.js";
 import * as React from "react";
 import * as Core from "@material-ui/core";
-import * as MaterialUi_Button from "rescript-material-ui/src/MaterialUi_Button.bs.js";
 import * as MaterialUi_TextField from "rescript-material-ui/src/MaterialUi_TextField.bs.js";
+import * as MaterialUi_IconButton from "rescript-material-ui/src/MaterialUi_IconButton.bs.js";
+import Add from "@material-ui/icons/Add";
 
 function TodoList(Props) {
   var match = React.useReducer(State.reducer, State.defaultState);
@@ -35,10 +36,13 @@ function TodoList(Props) {
                 }, React.createElement(Core.TextField, {
                       onChange: onChange,
                       value: MaterialUi_TextField.Value.string(state.input)
-                    }), React.createElement(Core.Button, {
-                      children: "Add",
-                      type: MaterialUi_Button.Type.string("submit"),
-                      variant: "contained"
+                    }), React.createElement(Core.Tooltip, {
+                      children: React.createElement(Core.IconButton, {
+                            type: MaterialUi_IconButton.Type.string("submit"),
+                            children: React.createElement(Add, {}),
+                            edge: MaterialUi_IconButton.Edge._end
+                          }),
+                      title: "Add"
                     })), todos.length === 0 ? React.createElement("p", undefined, "You haven't added anything to your list yet.") : React.createElement(Core.List, {
                     children: todos.map(function (todo, i) {
                           return React.createElement(Item.make, {

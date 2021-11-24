@@ -23,38 +23,33 @@ let make = (~todo: Todo.t, ~dispatch: State.action => unit, ~i: int) => {
 
   let handleDelete = _ => i->Remove->dispatch
 
-  React.useEffect1(() => {
+  /* let handleCancel = _ => {
     setValue(_ => todo.content)
 
-    None
-  }, [todo.content])
+    toggle()
+  } */
 
   let handleToggle = _ => toggle()
 
   <ListItem button={true} className={styles["item"]}>
-    <ListItemIcon>
-      <IconButton edge={IconButton.Edge.start}>
-        {if toggled {
-          <Cancel onClick={handleToggle} />
-        } else {
-          <Edit onClick={handleToggle} />
-        }}
-      </IconButton>
-    </ListItemIcon>
     {if toggled {
       <>
         <TextField onChange value={TextField.Value.string(value)} />
-        <ListItemIcon> <Check onClick={handleUpdate} /> </ListItemIcon>
+        <Tooltip title={React.string("Confirm")}>
+          <ListItemIcon> <Check onClick={handleUpdate} /> </ListItemIcon>
+        </Tooltip>
       </>
     } else {
-      <>
+      <Spread props={"onClick": handleToggle}>
         <ListItemText
           primary={React.string(todo.content)} style={ReactDOM.Style.make(~cursor="pointer", ())}
         />
-      </>
+      </Spread>
     }}
     <ListItemSecondaryAction>
-      <IconButton edge={IconButton.Edge._end}> <Delete onClick={handleDelete} /> </IconButton>
+      <Tooltip title={React.string("Delete")}>
+        <IconButton edge={IconButton.Edge._end}> <Delete onClick={handleDelete} /> </IconButton>
+      </Tooltip>
     </ListItemSecondaryAction>
   </ListItem>
 }
