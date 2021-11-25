@@ -2,13 +2,12 @@
 
 import * as Curry from "rescript/lib/es6/curry.js";
 import * as React from "react";
-import * as Spread from "../spread/Spread.bs.js";
-import * as UseToggle from "../../core/use-toggle/UseToggle.bs.js";
 import * as Core from "@material-ui/core";
 import * as IndexModuleScss from "./index.module.scss";
 import * as MaterialUi_TextField from "rescript-material-ui/src/MaterialUi_TextField.bs.js";
 import * as MaterialUi_IconButton from "rescript-material-ui/src/MaterialUi_IconButton.bs.js";
 import Check from "@material-ui/icons/Check";
+import Cancel from "@material-ui/icons/Cancel";
 import Delete from "@material-ui/icons/Delete";
 
 var styles = IndexModuleScss;
@@ -17,23 +16,22 @@ function Item(Props) {
   var todo = Props.todo;
   var dispatch = Props.dispatch;
   var i = Props.i;
-  var match = UseToggle.useToggle(undefined, undefined);
-  var toggle = match[1];
-  var match$1 = React.useState(function () {
-        return todo.content;
+  var opened = todo.opened;
+  var content = todo.content;
+  var match = React.useState(function () {
+        return content;
       });
-  var setValue = match$1[1];
-  var value = match$1[0];
+  var setValue = match[1];
+  var value = match[0];
   var onChange = function (e) {
     return Curry._1(setValue, e.target.value);
   };
   var handleUpdate = function (param) {
-    Curry._1(dispatch, {
-          TAG: /* Update */2,
-          value: value,
-          i: i
-        });
-    return Curry._1(toggle, undefined);
+    return Curry._1(dispatch, {
+                TAG: /* Update */2,
+                value: value,
+                i: i
+              });
   };
   var handleDelete = function (param) {
     return Curry._1(dispatch, {
@@ -41,44 +39,64 @@ function Item(Props) {
                 _0: i
               });
   };
-  var handleToggle = function (param) {
-    return Curry._1(toggle, undefined);
+  var handleListItemClick = function (param) {
+    if (!opened) {
+      return Curry._1(dispatch, {
+                  TAG: /* Toggle */3,
+                  _0: i
+                });
+    }
+    
+  };
+  var handleCancel = function (param) {
+    Curry._1(dispatch, {
+          TAG: /* Toggle */3,
+          _0: i
+        });
+    return Curry._1(setValue, (function (param) {
+                  return content;
+                }));
   };
   return React.createElement(Core.ListItem, {
               button: true,
-              children: null,
-              className: styles.item
-            }, match[0] ? React.createElement(React.Fragment, undefined, React.createElement(Core.TextField, {
-                        onChange: onChange,
-                        value: MaterialUi_TextField.Value.string(value)
-                      }), React.createElement(Core.Tooltip, {
-                        children: React.createElement(Core.ListItemIcon, {
-                              children: React.createElement(Check, {
-                                    onClick: handleUpdate
-                                  })
-                            }),
-                        title: "Confirm"
-                      })) : React.createElement(Spread.make, {
-                    props: {
-                      onClick: handleToggle
-                    },
-                    children: React.createElement(Core.ListItemText, {
-                          primary: todo.content,
+              children: opened ? React.createElement(React.Fragment, undefined, React.createElement(Core.TextField, {
+                          autoFocus: true,
+                          onChange: onChange,
+                          value: MaterialUi_TextField.Value.string(value)
+                        }), React.createElement(Core.Tooltip, {
+                          children: React.createElement(Core.ListItemIcon, {
+                                children: React.createElement(Check, {
+                                      onClick: handleUpdate
+                                    })
+                              }),
+                          title: "Confirm"
+                        }), React.createElement(Core.ListItemSecondaryAction, {
+                          children: React.createElement(Core.Tooltip, {
+                                children: React.createElement(Core.IconButton, {
+                                      onClick: handleCancel,
+                                      children: React.createElement(Cancel, {}),
+                                      edge: MaterialUi_IconButton.Edge._end
+                                    }),
+                                title: "Cancel"
+                              })
+                        })) : React.createElement(React.Fragment, undefined, React.createElement(Core.ListItemText, {
+                          primary: content,
                           style: {
                             cursor: "pointer"
                           }
-                        })
-                  }), React.createElement(Core.ListItemSecondaryAction, {
-                  children: React.createElement(Core.Tooltip, {
-                        children: React.createElement(Core.IconButton, {
-                              children: React.createElement(Delete, {
-                                    onClick: handleDelete
-                                  }),
-                              edge: MaterialUi_IconButton.Edge._end
-                            }),
-                        title: "Delete"
-                      })
-                }));
+                        }), React.createElement(Core.ListItemSecondaryAction, {
+                          children: React.createElement(Core.Tooltip, {
+                                children: React.createElement(Core.IconButton, {
+                                      onClick: handleDelete,
+                                      children: React.createElement(Delete, {}),
+                                      edge: MaterialUi_IconButton.Edge._end
+                                    }),
+                                title: "Delete"
+                              })
+                        })),
+              className: styles.item,
+              onClick: handleListItemClick
+            });
 }
 
 var make = Item;

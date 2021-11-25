@@ -4,10 +4,10 @@ open Icons
 @module external styles: {..} = "./index.module.scss"
 
 @react.component
-let make = (~todo: Todo.t, ~dispatch: State.action => unit, ~i: int) => {
-  let (toggled, toggle) = UseToggle.useToggle()
+let make = (~todo: State.todo, ~dispatch: State.action => unit, ~i: int) => {
+  let {opened, content} = todo
 
-  let (value, setValue) = React.useState(_ => todo.content)
+  let (value, setValue) = React.useState(_ => content)
 
   let onChange = e => {
     let value = ReactEvent.Form.target(e)["value"]
@@ -15,41 +15,48 @@ let make = (~todo: Todo.t, ~dispatch: State.action => unit, ~i: int) => {
     setValue(value)
   }
 
-  let handleUpdate = _ => {
-    {value: value, i: i}->Update->dispatch
-
-    toggle()
-  }
+  let handleUpdate = _ => {value: value, i: i}->Update->dispatch
 
   let handleDelete = _ => i->Remove->dispatch
 
-  /* let handleCancel = _ => {
-    setValue(_ => todo.content)
+  let handleToggle = _ => i->Toggle->dispatch
 
-    toggle()
-  } */
+  let handleListItemClick = _ => {
+    if !opened {
+      handleToggle()
+    }
+  }
 
-  let handleToggle = _ => toggle()
+  let handleCancel = _ => {
+    handleToggle()
 
-  <ListItem button={true} className={styles["item"]}>
-    {if toggled {
+    setValue(_ => content)
+  }
+
+  <ListItem button={true} className={styles["item"]} onClick={handleListItemClick}>
+    {if opened {
       <>
-        <TextField onChange value={TextField.Value.string(value)} />
+        <TextField onChange value={TextField.Value.string(value)} autoFocus={true} />
         <Tooltip title={React.string("Confirm")}>
           <ListItemIcon> <Check onClick={handleUpdate} /> </ListItemIcon>
         </Tooltip>
+        <ListItemSecondaryAction>
+          <Tooltip title={React.string("Cancel")}>
+            <IconButton edge={IconButton.Edge._end} onClick={handleCancel}> <Cancel /> </IconButton>
+          </Tooltip>
+        </ListItemSecondaryAction>
       </>
     } else {
-      <Spread props={"onClick": handleToggle}>
+      <>
         <ListItemText
-          primary={React.string(todo.content)} style={ReactDOM.Style.make(~cursor="pointer", ())}
+          primary={React.string(content)} style={ReactDOM.Style.make(~cursor="pointer", ())}
         />
-      </Spread>
+        <ListItemSecondaryAction>
+          <Tooltip title={React.string("Delete")}>
+            <IconButton edge={IconButton.Edge._end} onClick={handleDelete}> <Delete /> </IconButton>
+          </Tooltip>
+        </ListItemSecondaryAction>
+      </>
     }}
-    <ListItemSecondaryAction>
-      <Tooltip title={React.string("Delete")}>
-        <IconButton edge={IconButton.Edge._end}> <Delete onClick={handleDelete} /> </IconButton>
-      </Tooltip>
-    </ListItemSecondaryAction>
   </ListItem>
 }
