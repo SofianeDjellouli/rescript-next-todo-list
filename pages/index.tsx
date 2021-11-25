@@ -1,15 +1,13 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import { useState, useEffect } from "react";
-import { make as App } from "../src/components/app/App.bs";
+import dynamic from "next/dynamic";
+
+const App = dynamic<object>(
+  () => import("../src/components/app/App.bs").then((mod) => mod.make),
+  { ssr: false },
+);
 
 const Home: NextPage = () => {
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
   return (
     <>
       <Head>
@@ -18,7 +16,7 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      {mounted && <App />}
+      <App />
     </>
   );
 };
