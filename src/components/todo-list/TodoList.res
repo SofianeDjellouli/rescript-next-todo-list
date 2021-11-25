@@ -26,12 +26,18 @@ let make = () => {
 
   <>
     <form onSubmit={handleSubmit}>
-      <TextField onChange value={TextField.Value.string(input)} />
-      <Tooltip title={React.string("Add")}>
-        <IconButton _type={IconButton.Type.string("submit")} edge={IconButton.Edge._end}>
-          <Icons.Add />
-        </IconButton>
-      </Tooltip>
+      <List>
+        <ListItem>
+          <TextField onChange value={TextField.Value.string(input)} autoFocus={true} />
+          <ListItemSecondaryAction>
+            <Tooltip title={React.string("Add")}>
+              <IconButton _type={IconButton.Type.string("submit")} edge={IconButton.Edge._end}>
+                <Icons.Add />
+              </IconButton>
+            </Tooltip>
+          </ListItemSecondaryAction>
+        </ListItem>
+      </List>
     </form>
     {if todos->Js.Array2.length == 0 {
       <p> {React.string("You haven't added anything to your list yet.")} </p>

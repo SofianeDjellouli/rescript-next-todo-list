@@ -33,16 +33,23 @@ function TodoList(Props) {
   };
   return React.createElement(React.Fragment, undefined, React.createElement("form", {
                   onSubmit: handleSubmit
-                }, React.createElement(Core.TextField, {
-                      onChange: onChange,
-                      value: MaterialUi_TextField.Value.string(state.input)
-                    }), React.createElement(Core.Tooltip, {
-                      children: React.createElement(Core.IconButton, {
-                            type: MaterialUi_IconButton.Type.string("submit"),
-                            children: React.createElement(Add, {}),
-                            edge: MaterialUi_IconButton.Edge._end
-                          }),
-                      title: "Add"
+                }, React.createElement(Core.List, {
+                      children: React.createElement(Core.ListItem, {
+                            children: null
+                          }, React.createElement(Core.TextField, {
+                                autoFocus: true,
+                                onChange: onChange,
+                                value: MaterialUi_TextField.Value.string(state.input)
+                              }), React.createElement(Core.ListItemSecondaryAction, {
+                                children: React.createElement(Core.Tooltip, {
+                                      children: React.createElement(Core.IconButton, {
+                                            type: MaterialUi_IconButton.Type.string("submit"),
+                                            children: React.createElement(Add, {}),
+                                            edge: MaterialUi_IconButton.Edge._end
+                                          }),
+                                      title: "Add"
+                                    })
+                              }))
                     })), todos.length === 0 ? React.createElement("p", undefined, "You haven't added anything to your list yet.") : React.createElement(Core.List, {
                     children: todos.map(function (todo, i) {
                           return React.createElement(Item.make, {

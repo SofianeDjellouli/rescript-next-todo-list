@@ -37,9 +37,9 @@ let make = (~todo: State.todo, ~dispatch: State.action => unit, ~i: int) => {
     {if opened {
       <>
         <TextField onChange value={TextField.Value.string(value)} autoFocus={true} />
-        <Tooltip title={React.string("Confirm")}>
-          <ListItemIcon> <Check onClick={handleUpdate} /> </ListItemIcon>
-        </Tooltip>
+        <ListItemIcon>
+          <Tooltip title={React.string("Confirm")}> <Check onClick={handleUpdate} /> </Tooltip>
+        </ListItemIcon>
         <ListItemSecondaryAction>
           <Tooltip title={React.string("Cancel")}>
             <IconButton edge={IconButton.Edge._end} onClick={handleCancel}> <Cancel /> </IconButton>

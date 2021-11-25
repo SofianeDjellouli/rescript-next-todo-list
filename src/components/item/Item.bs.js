@@ -63,13 +63,13 @@ function Item(Props) {
                           autoFocus: true,
                           onChange: onChange,
                           value: MaterialUi_TextField.Value.string(value)
-                        }), React.createElement(Core.Tooltip, {
-                          children: React.createElement(Core.ListItemIcon, {
+                        }), React.createElement(Core.ListItemIcon, {
+                          children: React.createElement(Core.Tooltip, {
                                 children: React.createElement(Check, {
                                       onClick: handleUpdate
-                                    })
-                              }),
-                          title: "Confirm"
+                                    }),
+                                title: "Confirm"
+                              })
                         }), React.createElement(Core.ListItemSecondaryAction, {
                           children: React.createElement(Core.Tooltip, {
                                 children: React.createElement(Core.IconButton, {
