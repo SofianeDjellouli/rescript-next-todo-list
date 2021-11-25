@@ -1,24 +1,43 @@
-type state = {todos: array<Todo.t>, input: string}
+type todo = {content: string, opened: bool}
+
+type state = {
+  todos: array<todo>,
+  input: string,
+}
 
 let defaultState = {todos: [], input: ""}
 
-type action = Add | Remove(int) | InputChange(string) | Update({value: string, i: int})
+type action =
+  Add | Remove(int) | InputChange(string) | Update({value: string, i: int}) | Toggle(int)
 
 let reducer = (state, action) =>
   switch action {
   | Add => {
       input: "",
-      todos: state.todos->Js.Array2.concat([{content: state.input}]),
+      todos: state.todos->Js.Array2.concat([{content: state.input, opened: false}]),
     }
   | Remove(i) => {...state, todos: state.todos->Js.Array2.filteri((_, index) => index != i)}
   | InputChange(value) => {...state, input: value}
   | Update({value, i}) => {
-      let index = state.todos->Js.Array2.findIndexi((_, index) => index == i)
+      ...state,
+      todos: state.todos->Js.Array2.mapi((todo, index) => {
+        if i === index {
+          {content: value, opened: false}
+        } else {
+          todo
+        }
+      }),
+    }
+  | Toggle(i) => {
+      ...state,
+      todos: state.todos->Js.Array2.mapi((e, index) => {
+        let opened = if i === index {
+          !e.opened
+        } else {
+          false
+        }
 
-      if index > -1 {
-        state.todos[index].content = value
-      }
-
-      state
+        {...e, opened: opened}
+      }),
     }
   }
