@@ -4,6 +4,7 @@
   "scripts": {
     "predev": "rm -f .bsb.lock",
     "dev": "concurrently \"next dev\" \"rescript build -with-deps -w\"",
+    "prebuild": "rescript build -with-deps",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
@@ -14,10 +15,10 @@
     "next": "12.0.4",
     "react": "17.0.2",
     "react-dom": "17.0.2",
-    "rescript-material-ui": "^2.1.2",
-    "@rescript/react": "^0.10.3"
+    "rescript-material-ui": "^2.1.2"
   },
   "devDependencies": {
+    "@rescript/react": "^0.10.3",
     "@types/node": "16.11.7",
     "@types/react": "17.0.35",
     "bs-platform": "^9.0.2",
